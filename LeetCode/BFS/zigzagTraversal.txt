@@ -1,0 +1,71 @@
+https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/submissions/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        ArrayList<Integer> currentLevel = new ArrayList<Integer>();
+        Stack<TreeNode> firstStack = new Stack<TreeNode>();
+        Stack<TreeNode> secondStack = new Stack<TreeNode>();
+        firstStack.push(root);
+        
+        TreeNode temp;
+        int i, size;
+        int turn = 0;
+        
+        if(root==null) {
+            return ans;
+        }
+        while(firstStack.size()>0 || secondStack.size()>0) {
+            
+            if(turn%2==0) {
+                currentLevel.clear();
+                size = firstStack.size();
+                for(i=0; i<size; i++) {
+                
+                    temp = firstStack.pop();
+                    if(temp!=null) {
+                
+                        currentLevel.add(temp.val);
+                        if(temp.left!=null)    
+                            secondStack.push(temp.left);
+                        if(temp.right!=null)
+                            secondStack.push(temp.right);
+                    }
+                }
+                
+                ++turn;
+                ans.add(new ArrayList(currentLevel));
+            }
+          else {
+                size = secondStack.size();
+                currentLevel.clear();
+                for(i=0; i<size; i++) {
+                
+                    temp = secondStack.pop();
+                    if(temp!=null) {
+                
+                        currentLevel.add(temp.val);
+                        if(temp.right!=null)    
+                            firstStack.push(temp.right);
+                        if(temp.left!=null)
+                            firstStack.push(temp.left);
+                    }
+                }
+                ++turn;
+                ans.add(new ArrayList(currentLevel));
+        }
+            
+        }
+        return ans;
+    }
+}
