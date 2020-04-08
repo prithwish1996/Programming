@@ -1,0 +1,86 @@
+https://leetcode.com/problems/surrounded-regions/submissions/
+
+class Solution {
+    public void solve(char[][] board) {
+       
+        int noOfRow = board.length;
+        String indices;
+        int row, col;
+        String[] values;
+        
+        if(noOfRow > 0) {
+            int noOfCol = board[0].length;    
+        
+        
+        int i, j, size;
+        int[][] mark = new int[noOfRow][noOfCol];
+        Queue<String> index = new LinkedList<String>();
+        
+        for(i=0; i<noOfCol; i++) {
+           if(board[0][i] == 'O') {
+               mark[0][i] = 1;
+               index.add(new String("0"+","+Integer.toString(i)));
+           }
+           
+            if(board[noOfRow-1][i]=='O') {
+               mark[noOfRow-1][i] = 1;
+               index.add(new String(Integer.toString(noOfRow-1)+","+Integer.toString(i)));
+            }
+        }
+        
+        for(i=0; i<noOfRow; i++) {
+           if(board[i][0] == 'O') {
+               mark[i][0] = 1;
+               index.add(new String(Integer.toString(i)+","+"0"));
+           }
+           
+            if(board[i][noOfCol-1]=='O') {
+               mark[i][noOfCol-1] = 1;
+               index.add(new String(Integer.toString(i)+","+Integer.toString(noOfCol-1)));
+            }
+        }
+        
+        while(index.size()>0) {
+            
+            size = index.size();
+            
+            for(i=0; i<size; i++) {
+                
+                indices = index.remove();
+                values = indices.split(",");
+                row = Integer.parseInt(values[0]);
+                col = Integer.parseInt(values[1]);
+                if(row+1<noOfRow && board[row+1][col]=='O' && mark[row+1][col] == 0) {
+                  mark[row+1][col] = 1; 
+                  index.add(new String(Integer.toString(row+1)+","+Integer.toString(col)));
+                }
+                if(col+1<noOfCol && board[row][col+1]=='O' && mark[row][col+1] == 0) {
+                  mark[row][col+1] = 1; 
+                  index.add(new String(Integer.toString(row)+","+Integer.toString(col+1)));
+                }
+                if(row-1>0 && board[row-1][col]=='O' && mark[row-1][col] == 0) {
+                   mark[row-1][col] = 1;
+                   index.add(new String(Integer.toString(row-1)+","+Integer.toString(col)));
+                }
+                if(col-1>0 && board[row][col-1]=='O' && mark[row][col-1] == 0) {
+                  mark[row][col-1] = 1;
+                  index.add(new String(Integer.toString(row)+","+Integer.toString(col-1)));
+                }
+                
+            }
+        }
+        
+        for(i=0; i<noOfRow; i++) {
+            for(j=0; j<noOfCol; j++) {
+                if(board[i][j] == 'O' && mark[i][j] == 1) {
+                    
+                }
+                else {
+                    board[i][j] = 'X';
+                }
+            }
+        }
+        
+        }
+    }
+}
