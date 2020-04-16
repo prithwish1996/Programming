@@ -1,0 +1,86 @@
+https://leetcode.com/problems/bus-routes/submissions/
+
+class Solution {
+    public int numBusesToDestination(int[][] routes, int S, int T) {
+        
+        HashMap<Integer,ArrayList<Integer>> routeNo = new HashMap<Integer,ArrayList<Integer>>();
+        HashMap<Integer,ArrayList<Integer>> graph = new HashMap<Integer,ArrayList<Integer>>();
+        HashSet<Integer> visited = new HashSet<Integer>();
+        Queue<int[]> traverse = new Queue<int[]>();
+        int i;
+        
+        for(i=0; i<routes.length; i++) {
+            for(j=0; j<route[i].length; j++) {
+                if(!routeNo.containsKey(route[i].get(j))) {
+                   routeNo.put(route[i].get(j),new ArrayList(i));
+                }
+                else {
+                    ArrayList<Integer> li = routeNo[i].get(j);
+                    li.add(i);
+                    routeNo.put(route[i].get(j),new ArrayList(li));
+                }
+            }
+        }
+        
+        for(i=0; i<routes.length; i++) {
+            for(j=0; j<routes.length-1; j++) {
+               
+                if(!routeNo.containsKey(route[i].get(j))) {
+                   routeNo.put(route[i].get(j),route[i].get(j+1));
+                }
+                else {
+                    ArrayList<Integer> li = routeNo[i].get(j);
+                    li.add(routeNo[i].get(j+1));
+                    routeNo.put(route[i].get(j),new ArrayList(li));
+                }
+                
+            }
+            if(j>1) {
+              if(!routeNo.containsKey(route[i].get(j))) {
+                   routeNo.put(route[i].get(j),route[i].get(0));
+                }
+                else {
+                    ArrayList<Integer> li = routeNo[i].get(j);
+                    li.add(routeNo[i].get(0));
+                    routeNo.put(route[i].get(j),new ArrayList(li));
+                }  
+            }
+        }
+        
+        int[] source = new int[2];
+        source[0] = S;
+        source[1] = 0;
+        
+        int rno;
+        
+        traverse.add(source);
+        visited.add(source[0]);
+        
+        while(traverse.size()>0) {
+            
+            size = traverse.size();
+            
+            for(i=0; i<size; i++) {
+                
+                int[] so = traverse.remove();
+                rno = so[1];
+                ArrayList<Integer> neighbours = graph.get(so[0]);
+                for(j=0; j<neighbours.length; j++) {
+                    if(!visited.get(neighbours.get(j))) {
+                        visited.add(neighbours.get(j));
+                        if(neighbours.get(j) == T) {
+                            rno = 
+                        }
+                    }
+                }
+            }
+            
+        }
+        
+        
+        
+        
+        
+        
+    }
+}
